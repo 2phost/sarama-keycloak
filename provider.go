@@ -90,7 +90,7 @@ func New(c Config) (*Provider, error) {
 		stopOnce:              sync.Once{},
 	}
 
-	p.keycloak(keycloakWithMetrics).k.SetTLSClientConfig(&tls.Config{ InsecureSkipVerify: true })
+	p.keycloak.(keycloakWithMetrics).k.SetTLSClientConfig(&tls.Config{ InsecureSkipVerify: true })
 
 	go p.updateLoop()
 
