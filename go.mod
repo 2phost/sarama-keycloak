@@ -1,4 +1,4 @@
-module github.com/ozonru/sarama-keycloak
+module github.com/2phost/sarama-keycloak
 
 go 1.14
 
