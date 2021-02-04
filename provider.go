@@ -76,11 +76,12 @@ func New(c Config) (*Provider, error) {
 	mu := &sync.RWMutex{}
 
 	k := &keycloakWithMetrics{gocloak.NewClient(c.KeycloakHostPort)}
-	k.SetTLSClientConfig(&tls.Config{ InsecureSkipVerify: true })
+	restyClient := k.RestyClient()
+	restyClient.SetTLSClientConfig(&tls.Config{ InsecureSkipVerify: true })
 
 	p := &Provider{
 		refreshThreshold:      c.RefreshThreshold,
-		keycloak:              &k,
+		keycloak:              k,
 		keycloakTimeout:       c.KeycloakTimeout,
 		keycloakRetryInterval: c.KeycloakRetryInterval,
 		clientID:              c.ClientID,

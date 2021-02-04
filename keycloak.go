@@ -3,6 +3,7 @@ package saramakeycloak
 import (
 	"time"
 
+	"github.com/go-resty/resty/v2"
 	"github.com/Nerzal/gocloak/v5"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -25,10 +26,16 @@ type Keycloak interface {
 
 	// RefreshToken used to refresh the token.
 	RefreshToken(refreshToken string, clientID, clientSecret, realm string) (*gocloak.JWT, error)
+
+	RestyClient() *resty.Client
 }
 
 type keycloakWithMetrics struct {
 	k Keycloak
+}
+
+func (k *keycloakWithMetrics) RestyClient() *resty.Client {
+	return k.k.RestyClient()
 }
 
 func (k *keycloakWithMetrics) LoginClient(clientID, clientSecret, realm string) (*gocloak.JWT, error) {
