@@ -5,6 +5,7 @@ import (
 	"sync"
 	"time"
 
+	"crypto/tls"
 	"github.com/Nerzal/gocloak/v5"
 	"github.com/Shopify/sarama"
 	"github.com/pkg/errors"
@@ -88,6 +89,8 @@ func New(c Config) (*Provider, error) {
 		stopCh:                make(chan struct{}),
 		stopOnce:              sync.Once{},
 	}
+
+	p.keycloak.k.SetTLSClientConfig(&tls.Config{ InsecureSkipVerify: true })
 
 	go p.updateLoop()
 
