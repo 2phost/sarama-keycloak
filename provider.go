@@ -115,6 +115,8 @@ func (p *Provider) updateLoop() {
 			if resetIn > p.refreshThreshold {
 				resetIn = resetIn - p.refreshThreshold
 			}
+		} else {
+			p.token = nil
 		}
 
 		p.tokenCond.Broadcast()
